@@ -1,6 +1,3 @@
-
-
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -8,38 +5,45 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Arrays;
+import java.util.List;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.*;
 
-import java.lang.Object;
-
-import com.google.gson.Gson;
-import com.fasterxml.jackson.core;
 
 
 
 class Main {
+  public class roots{
+        String name;
+            String link;
+            }
+
   public static void main(String[] args) {
+
     System.out.println("Hello world!");
 
-    String data = GetData("https://swapi.dev/api/");
-    Map<String, String> root_Map  = new HashMap<String, String>();
 
-    // Type type = new TypeToken<Map<String, String>>() {
-    // }.getType();
-  Object  root = new Gson().fromJson(data, Object.class);
+    ObjectMapper mapper = new ObjectMapper();
+ 
 
-    ObjectMapper map = new ObjectMapper();
+        String data = GetData("https://swapi.dev/api/");
+        System.out.println(data);
+        try
+        {
+            Map<String,Object> Item = mapper.readValue(data,Map.class);
+            for(Map.Entry<String,Object> q:Item.entrySet())
+            {
+                System.out.println(q.getKey()+"     :"+q.getValue());
+            }
+        }
+        catch(IOException ex){
 
+            System.out.println(ex);
+        }
 
-
-    // for (Map.Entry<String, String> item : root.entrySet()) {
-    //   System.out.println(item.getKey() + ":" + item.getValue());
-
-    // }
-    System.out.println(data);
-    System.out.println();
-    System.out.println(root);
-
-  }
+ 
+    }
 
   private static String streamToString(InputStream inputStream) {
     String text = new Scanner(inputStream, "UTF-8").useDelimiter("\\Z").next();
@@ -57,6 +61,7 @@ class Main {
       connection.setRequestProperty("Accept", "application/json");
       connection.connect();
       InputStream inStream = connection.getInputStream();
+      
 
       System.out.println(connection.getResponseMessage());
       System.out.println(connection.getResponseCode());
@@ -67,5 +72,7 @@ class Main {
     }
     return json;
   }
+
+
 
 }
