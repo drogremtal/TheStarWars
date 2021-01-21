@@ -22,13 +22,11 @@ class Main {
   public static void main(String[] args) {
 
     System.out.println("Hello world!");
-
-
     ObjectMapper mapper = new ObjectMapper();
- 
 
         String data = GetData("https://swapi.dev/api/");
         System.out.println(data);
+        System.out.println();
         try
         {
             Map<String,Object> Item = mapper.readValue(data,Map.class);
@@ -61,6 +59,7 @@ class Main {
       connection.setRequestProperty("Accept", "application/json");
       connection.connect();
       InputStream inStream = connection.getInputStream();
+      System.out.println(inStream.toString());
       
 
       System.out.println(connection.getResponseMessage());
