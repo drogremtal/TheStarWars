@@ -28,9 +28,10 @@ class Main {
       HttpURLConnection connection = (HttpURLConnection) url.openConnection();
       connection.setDoOutput(true);
       connection.setInstanceFollowRedirects(false);
-      connection.setRequestMethod("GET");     
+      connection.setRequestMethod("GET");
+      connection.setRequestProperty("Accept", "application/json");
       connection.connect();
-      InputStream inStream = connection.getInputStream();     
+      InputStream inStream = connection.getInputStream();
       json = streamToString(inStream); // input stream to string
     } catch (IOException ex) {
       ex.printStackTrace();
