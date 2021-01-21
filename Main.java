@@ -32,6 +32,11 @@ class Main {
       connection.setRequestProperty("Accept", "application/json");
       connection.connect();
       InputStream inStream = connection.getInputStream();
+
+      System.out.println(connection.getResponseMessage());
+      System.out.println(connection.getResponseCode());
+
+
       json = streamToString(inStream); // input stream to string
     } catch (IOException ex) {
       ex.printStackTrace();
