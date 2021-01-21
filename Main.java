@@ -1,29 +1,48 @@
+
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+
+import java.lang.Object;
+
+import com.google.gson.Gson;
+import com.google.common.reflect;
+
+
 
 class Main {
   public static void main(String[] args) {
     System.out.println("Hello world!");
 
-
     String data = GetData("https://swapi.dev/api/");
-    System.out
-        .println(data);
+    Map<String, String> root  = new HashMap<String, String>();
+
+    Type type = new TypeToken<Map<String, String>>() {
+    }.getType();
+    root = new Gson().fromJson(data, type);
+
+    for (Map.Entry<String, String> item : root.entrySet()) {
+      System.out.println(item.getKey() + ":" + item.getValue());
+
+    }
+    System.out.println();
+    System.out.println(data);
 
   }
 
-    private static String streamToString(InputStream inputStream) {
+  private static String streamToString(InputStream inputStream) {
     String text = new Scanner(inputStream, "UTF-8").useDelimiter("\\Z").next();
     return text;
   }
 
-  public static String GetData (String urlQuery)
-  {
+  public static String GetData(String urlQuery) {
     String json = "";
-   try {
+    try {
       URL url = new URL(urlQuery);
       HttpURLConnection connection = (HttpURLConnection) url.openConnection();
       connection.setDoOutput(true);
@@ -36,12 +55,11 @@ class Main {
       System.out.println(connection.getResponseMessage());
       System.out.println(connection.getResponseCode());
 
-
       json = streamToString(inStream); // input stream to string
     } catch (IOException ex) {
       ex.printStackTrace();
     }
-	return json;
+    return json;
   }
-   
+
 }
