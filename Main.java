@@ -1,5 +1,6 @@
 
 
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -11,7 +12,7 @@ import java.util.Scanner;
 import java.lang.Object;
 
 import com.google.gson.Gson;
-import com.google.common.reflect;
+import com.fasterxml.jackson.core;
 
 
 
@@ -20,18 +21,23 @@ class Main {
     System.out.println("Hello world!");
 
     String data = GetData("https://swapi.dev/api/");
-    Map<String, String> root  = new HashMap<String, String>();
+    Map<String, String> root_Map  = new HashMap<String, String>();
 
-    Type type = new TypeToken<Map<String, String>>() {
-    }.getType();
-    root = new Gson().fromJson(data, type);
+    // Type type = new TypeToken<Map<String, String>>() {
+    // }.getType();
+  Object  root = new Gson().fromJson(data, Object.class);
 
-    for (Map.Entry<String, String> item : root.entrySet()) {
-      System.out.println(item.getKey() + ":" + item.getValue());
+    ObjectMapper map = new ObjectMapper();
 
-    }
-    System.out.println();
+
+
+    // for (Map.Entry<String, String> item : root.entrySet()) {
+    //   System.out.println(item.getKey() + ":" + item.getValue());
+
+    // }
     System.out.println(data);
+    System.out.println();
+    System.out.println(root);
 
   }
 
